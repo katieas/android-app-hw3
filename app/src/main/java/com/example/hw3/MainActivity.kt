@@ -2,6 +2,7 @@ package com.example.hw3
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -10,28 +11,65 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.hw3.lightsout.LightsOutActivity
 import com.example.hw3.pizzaparty.PizzaPartyActivity
 
-//val SLICES_PER_PIZZA = 8 //getInteger(R.integer.slices_per_pizza)
-val TAG = "MainActivity" //getString(R.string.tag)
+const val TAG = "MainActivityLifeCycle" //getString(R.string.tag)
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var lightsOutGameButton: Button
     private lateinit var pizzaPartyGameButton: Button
+    private lateinit var pizzaPartyShareButton: Button
+    private lateinit var lightsOutShareButton: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        Log.d(TAG, "onCreate")
+
+//        if (savedInstanceState != null) {
+//            //
+//        }
 
         lightsOutGameButton = findViewById(R.id.lights_out_game_button)
-        lightsOutGameButton.setOnClickListener{
+        lightsOutGameButton.setOnClickListener {
             val intent = Intent(this, LightsOutActivity::class.java)
             startActivity(intent)
         }
 
         pizzaPartyGameButton = findViewById(R.id.pizza_party_game_button)
-        pizzaPartyGameButton.setOnClickListener{
+        pizzaPartyGameButton.setOnClickListener {
             val intent = Intent(this, PizzaPartyActivity::class.java)
             startActivity(intent)
+        }
+
+
+        lightsOutShareButton = findViewById(R.id.share_lights_out_button)
+        lightsOutShareButton.setOnClickListener {
+            val intent = Intent(Intent.ACTION_SEND)
+            // Supply extra that is plain text
+            intent.type = "text/plain"
+            intent.putExtra(Intent.EXTRA_SUBJECT, "Lights Out Game")
+            intent.putExtra(Intent.EXTRA_TEXT, "https://stackoverflow.com/")
+
+            // If at least one app can handle intent, allow user to choose
+            if (intent.resolveActivity(packageManager) != null) {
+                val chooser = Intent.createChooser(intent, "Share Lights Out Game Statistics")
+                startActivity(chooser)
+            }
+        }
+
+        pizzaPartyShareButton = findViewById(R.id.share_pizza_party_button)
+        pizzaPartyShareButton.setOnClickListener {
+            val intent = Intent(Intent.ACTION_SEND)
+            // Supply extra that is plain text
+            intent.type = "text/plain"
+            intent.putExtra(Intent.EXTRA_SUBJECT, "Pizza Party Game")
+            intent.putExtra(Intent.EXTRA_TEXT, "https://stackoverflow.com/")
+
+            // If at least one app can handle intent, allow user to choose
+            if (intent.resolveActivity(packageManager) != null) {
+                val chooser = Intent.createChooser(intent, "Share Pizza Calculation")
+                startActivity(chooser)
+            }
         }
     }
 
@@ -57,4 +95,34 @@ class MainActivity : AppCompatActivity() {
             else -> super.onOptionsItemSelected(item)
         }
     }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        Log.d(TAG, "onStart")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.d(TAG, "onStop")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d(TAG, "onDestroy")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.d(TAG, "onPause")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d(TAG, "onResume")
+    }
+}
 }

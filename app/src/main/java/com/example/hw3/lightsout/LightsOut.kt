@@ -1,8 +1,8 @@
 package com.example.hw3.lightsout
 
 import android.content.Intent
-import com.example.hw3.lightsout.LightsOutGame
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -15,12 +15,16 @@ import com.example.hw3.MainActivity
 import com.example.hw3.R
 import com.example.hw3.pizzaparty.PizzaPartyActivity
 
+const val TAG = "LifeCycle"
+const val KEY_TOTAL_WINS = "totalWins"
+
 class LightsOutActivity : AppCompatActivity() {
 
     private lateinit var game: LightsOutGame
     private lateinit var lightGridLayout: GridLayout
     private var lightOnColor = 0
     private var lightOffColor = 0
+    private var totalWins = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,6 +42,25 @@ class LightsOutActivity : AppCompatActivity() {
 
         game = LightsOutGame()
         startGame()
+
+        Log.d(TAG, "onCreate")
+
+        //Do we need to restore saveInstanceState
+        if (savedInstanceState != null) {
+            // we have a saeInstanceState object --> saved data!
+            totalWins = savedInstanceState.getInt(KEY_TOTAL_WINS)
+            //displayTotal()
+        }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putInt(KEY_TOTAL_WINS, totalWins)
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        totalWins = savedInstanceState.getInt(KEY_TOTAL_WINS)
     }
 
     private fun startGame() {
@@ -108,6 +131,31 @@ class LightsOutActivity : AppCompatActivity() {
             }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        Log.d(TAG, "onStart")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.d(TAG, "onStop")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d(TAG, "onDestroy")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.d(TAG, "onPause")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d(TAG, "onResume")
     }
 
 }
