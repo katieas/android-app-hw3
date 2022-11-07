@@ -10,4 +10,17 @@
     android:paddingRight="16dp"
     android:paddingTop="16dp"
     tools:context="com.example.hw3.MainActivity">
+
+    <Button
+        android:id="@+id/lights_out_game_button"
+        android:text="Lights Out Game"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <Button
+        android:id="@+id/pizza_party_game_button"
+        android:text="Pizza Party Game"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
 </LinearLayout>

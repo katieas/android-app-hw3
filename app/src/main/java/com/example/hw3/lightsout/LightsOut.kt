@@ -1,14 +1,19 @@
 package com.example.hw3.lightsout
 
+import android.content.Intent
 import com.example.hw3.lightsout.LightsOutGame
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.GridLayout
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.children
+import com.example.hw3.MainActivity
 import com.example.hw3.R
+import com.example.hw3.pizzaparty.PizzaPartyActivity
 
 class LightsOutActivity : AppCompatActivity() {
 
@@ -77,4 +82,32 @@ class LightsOutActivity : AppCompatActivity() {
     fun onNewGameClick(view: View) {
         startGame()
     }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.appbar_menu, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        // Determine which menu option was selected
+        return when (item.itemId) {
+            R.id.action_menu -> {
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
+                true
+            }
+            R.id.action_lights_out -> {
+//                val intent = Intent(this, LightsOutActivity::class.java)
+//                startActivity(intent)
+                true
+            }
+            R.id.action_pizza_party -> {
+                val intent = Intent(this, PizzaPartyActivity::class.java)
+                startActivity(intent)
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
 }

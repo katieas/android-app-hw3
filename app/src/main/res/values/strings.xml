@@ -1,5 +1,7 @@
 <resources>
-    <string name="app_name">Pizza Party</string>
+    <string name="app_name">Homework3</string>
+
+<!--    Pizza Party-->
     <string name="total_pizzas">Total pizza: %d</string>
     <string name="number_of_people">Number of people?</string>
     <string name="how_hungry">How hungry?</string>
@@ -9,4 +11,9 @@
     <string name="calculate">Calculate</string>
     <string name="new_game">New Game</string>
     <string name="congrats">congrats</string>
+
+<!--    Menu App Bar-->
+    <string name="action_menu">Main Menu</string>
+    <string name="action_lights_out">Lights Out</string>
+    <string name="action_pizza_party">Pizza Party</string>
 </resources>

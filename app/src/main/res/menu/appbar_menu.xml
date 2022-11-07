@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_menu"
+        android:title="@string/action_menu"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/action_lights_out"
+        android:title="@string/action_lights_out"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/action_pizza_party"
+        android:title="@string/action_pizza_party"
+        app:showAsAction="never"/>
+
+</menu>

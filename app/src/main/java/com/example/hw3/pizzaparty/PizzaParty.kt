@@ -1,14 +1,19 @@
 package com.example.hw3.pizzaparty
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.EditText
 import android.widget.RadioGroup
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.example.hw3.MainActivity
 import com.example.hw3.R
+import com.example.hw3.lightsout.LightsOutActivity
 
 private const val TAG = "Lifecycle"
 private const val KEY_TOTAL_PIZZAS = "totalPizzas"
@@ -106,5 +111,32 @@ class PizzaPartyActivity : AppCompatActivity() {
         // Place totalPizzas into the string resource and display
         val totalText = getString(R.string.total_pizzas, totalPizzas)
         numPizzasTextView.setText(totalText)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.appbar_menu, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        // Determine which menu option was selected
+        return when (item.itemId) {
+            R.id.action_menu -> {
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
+                true
+            }
+            R.id.action_lights_out -> {
+                val intent = Intent(this, LightsOutActivity::class.java)
+                startActivity(intent)
+                true
+            }
+            R.id.action_pizza_party -> {
+//                val intent = Intent(this, PizzaPartyActivity::class.java)
+//                startActivity(intent)
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 }
