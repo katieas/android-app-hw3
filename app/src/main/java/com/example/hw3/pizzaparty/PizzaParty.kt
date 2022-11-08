@@ -20,7 +20,6 @@ class PizzaPartyActivity : AppCompatActivity() {
 
     private lateinit var numAttendEditText: EditText
     private lateinit var numPizzasTextView: TextView
-    private lateinit var howHungryRadioGroup: RadioGroup
     private lateinit var hungerLevel: PizzaCalculator.HungerLevel
     private var totalPizzas = 0
 
@@ -53,8 +52,6 @@ class PizzaPartyActivity : AppCompatActivity() {
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
-
-        //howHungryRadioGroup = findViewById(R.id.hungry_radio_group)
 
         Log.d(TAG, "onCreate")
 
@@ -109,19 +106,11 @@ class PizzaPartyActivity : AppCompatActivity() {
     }
 
     fun calculateClick(view: View) {
-
         // Get the text that was typed into the EditText
         val numAttendStr = numAttendEditText.text.toString()
 
         // Convert the text into an integer
         val numAttend = numAttendStr.toIntOrNull() ?: 0
-
-//        // Get hunger level selection
-//        val hungerLevel = when (howHungryRadioGroup.getCheckedRadioButtonId()) {
-//            R.id.light_radio_button -> PizzaCalculator.HungerLevel.LIGHT
-//            R.id.medium_radio_button -> PizzaCalculator.HungerLevel.MEDIUM
-//            else -> PizzaCalculator.HungerLevel.RAVENOUS
-//        }
 
         // Get the number of pizzas needed
         val calc = PizzaCalculator(numAttend, hungerLevel)

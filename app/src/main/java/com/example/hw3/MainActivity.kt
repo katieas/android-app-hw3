@@ -15,8 +15,6 @@ const val TAG = "MainActivityLifeCycle" //getString(R.string.tag)
 
 class MainActivity : AppCompatActivity() {
 
-
-
     private lateinit var lightsOutGameButton: Button
     private lateinit var pizzaPartyGameButton: Button
     private lateinit var pizzaPartyShareButton: Button
@@ -34,49 +32,20 @@ class MainActivity : AppCompatActivity() {
         var toggleLightTheme = true
 
         lightsOutGameButton = findViewById(R.id.lights_out_game_button)
-        lightsOutGameButton.setOnClickListener {
-            val intent = Intent(this, LightsOutActivity::class.java)
-            startActivity(intent)
-        }
+        lightsOutGameButton.setOnClickListener(this::onLightsOutButtonGameClick)
 
         pizzaPartyGameButton = findViewById(R.id.pizza_party_game_button)
-        pizzaPartyGameButton.setOnClickListener {
-            val intent = Intent(this, PizzaPartyActivity::class.java)
-            startActivity(intent)
-        }
+        pizzaPartyGameButton.setOnClickListener(this::onPizzaPartyButtonGameClick)
 
 
         lightsOutShareButton = findViewById(R.id.share_lights_out_button)
-        lightsOutShareButton.setOnClickListener {
-            val intent = Intent(Intent.ACTION_SEND)
-            // Supply extra that is plain text
-            intent.type = "text/plain"
-            intent.putExtra(Intent.EXTRA_SUBJECT, "Lights Out Game")
-            intent.putExtra(Intent.EXTRA_TEXT, "https://stackoverflow.com/")
-
-            // If at least one app can handle intent, allow user to choose
-            if (intent.resolveActivity(packageManager) != null) {
-                val chooser = Intent.createChooser(intent, "Share Lights Out Game Statistics")
-                startActivity(chooser)
-            }
-        }
+        lightsOutShareButton.setOnClickListener(this::onLightsOutShareButtonClick)
 
         pizzaPartyShareButton = findViewById(R.id.share_pizza_party_button)
-        pizzaPartyShareButton.setOnClickListener {
-            val intent = Intent(Intent.ACTION_SEND)
-            // Supply extra that is plain text
-            intent.type = "text/plain"
-            intent.putExtra(Intent.EXTRA_SUBJECT, "Pizza Party Game")
-            intent.putExtra(Intent.EXTRA_TEXT, "https://stackoverflow.com/")
-
-            // If at least one app can handle intent, allow user to choose
-            if (intent.resolveActivity(packageManager) != null) {
-                val chooser = Intent.createChooser(intent, "Share Pizza Calculation")
-                startActivity(chooser)
-            }
-        }
+        pizzaPartyShareButton.setOnClickListener(this::onPizzaPartyShareButtonClick)
     }
 
+    // APP BAR
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.appbar_menu, menu)
         //val item = menu.findItem((R.id.action_light_theme)
@@ -108,6 +77,44 @@ class MainActivity : AppCompatActivity() {
                 true
             }
             else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    private fun onLightsOutButtonGameClick(view: View) {
+        val intent = Intent(this, LightsOutActivity::class.java)
+        startActivity(intent)
+    }
+
+    private fun onPizzaPartyButtonGameClick(view: View) {
+        val intent = Intent(this, PizzaPartyActivity::class.java)
+        startActivity(intent)
+    }
+
+    private fun onLightsOutShareButtonClick(view: View) {
+        val intent = Intent(Intent.ACTION_SEND)
+        // Supply extra that is plain text
+        intent.type = "text/plain"
+        intent.putExtra(Intent.EXTRA_SUBJECT, "Lights Out Game")
+        intent.putExtra(Intent.EXTRA_TEXT, "https://stackoverflow.com/")
+
+        // If at least one app can handle intent, allow user to choose
+        if (intent.resolveActivity(packageManager) != null) {
+            val chooser = Intent.createChooser(intent, "Share Lights Out Game Statistics")
+            startActivity(chooser)
+        }
+    }
+
+    private fun onPizzaPartyShareButtonClick(view: View) {
+        val intent = Intent(Intent.ACTION_SEND)
+        // Supply extra that is plain text
+        intent.type = "text/plain"
+        intent.putExtra(Intent.EXTRA_SUBJECT, "Pizza Party Game")
+        intent.putExtra(Intent.EXTRA_TEXT, "https://stackoverflow.com/")
+
+        // If at least one app can handle intent, allow user to choose
+        if (intent.resolveActivity(packageManager) != null) {
+            val chooser = Intent.createChooser(intent, "Share Pizza Calculation")
+            startActivity(chooser)
         }
     }
 

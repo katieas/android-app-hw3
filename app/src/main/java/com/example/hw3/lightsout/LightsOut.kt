@@ -6,14 +6,17 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.Button
 import android.widget.GridLayout
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.children
+import androidx.core.view.size
 import com.example.hw3.MainActivity
 import com.example.hw3.R
 import com.example.hw3.pizzaparty.PizzaPartyActivity
+import kotlin.random.Random
 
 const val TAG = "LifeCycle"
 const val KEY_TOTAL_WINS = "totalWins"
@@ -22,6 +25,8 @@ class LightsOutActivity : AppCompatActivity() {
 
     private lateinit var game: LightsOutGame
     private lateinit var lightGridLayout: GridLayout
+    private lateinit var newGameButton: Button
+    private lateinit var randomMoveButton: Button
     private var lightOnColor = 0
     private var lightOffColor = 0
     private var totalWins = 0
@@ -42,6 +47,13 @@ class LightsOutActivity : AppCompatActivity() {
 
         game = LightsOutGame()
         startGame()
+
+        newGameButton = findViewById(R.id.new_game_button)
+        newGameButton.setOnClickListener(this::onNewGameClick)
+
+        randomMoveButton = findViewById(R.id.random_move_button)
+        randomMoveButton.setOnClickListener(this::onRandomMoveButtonClick)
+
 
         Log.d(TAG, "onCreate")
 
@@ -84,6 +96,23 @@ class LightsOutActivity : AppCompatActivity() {
         }
     }
 
+    private fun onRandomMoveButtonClick(view: View) {
+        // Randomize the button's row and col
+        val row = Random.nextInt(0, lightGridLayout.childCount) / GRID_SIZE
+        val col = Random.nextInt(0, lightGridLayout.childCount) % GRID_SIZE
+
+        Log.d("ROW", row.toString())
+        Log.d("COL", col.toString())
+
+        game.selectLight(row, col)
+        setButtonColors()
+
+        // Congratulate the user if the game is over
+        if (game.isGameOver) {
+            Toast.makeText(this, R.string.congrats, Toast.LENGTH_SHORT).show()
+        }
+    }
+
     private fun setButtonColors() {
 
         // Set all buttons' background color
@@ -102,10 +131,12 @@ class LightsOutActivity : AppCompatActivity() {
         }
     }
 
-    fun onNewGameClick(view: View) {
+    private fun onNewGameClick(view: View) {
         startGame()
     }
 
+
+    // APP BAR
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.appbar_menu, menu)
         return super.onCreateOptionsMenu(menu)
