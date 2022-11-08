@@ -12,8 +12,16 @@
     <string name="new_game">New Game</string>
     <string name="congrats">congrats</string>
 
+    <string-array name="hungry_array">
+        <item>light</item>
+        <item>medium</item>
+        <item>ravenous</item>
+    </string-array>
+
 <!--    Menu App Bar-->
     <string name="action_menu">Main Menu</string>
     <string name="action_lights_out">Lights Out</string>
     <string name="action_pizza_party">Pizza Party</string>
+    <string name="action_light_theme">Light Theme</string>
+    <string name="action_dark_theme">Dark Theme</string>
 </resources>

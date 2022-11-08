@@ -15,6 +15,8 @@ const val TAG = "MainActivityLifeCycle" //getString(R.string.tag)
 
 class MainActivity : AppCompatActivity() {
 
+
+
     private lateinit var lightsOutGameButton: Button
     private lateinit var pizzaPartyGameButton: Button
     private lateinit var pizzaPartyShareButton: Button
@@ -28,6 +30,8 @@ class MainActivity : AppCompatActivity() {
 //        if (savedInstanceState != null) {
 //            //
 //        }
+
+        var toggleLightTheme = true
 
         lightsOutGameButton = findViewById(R.id.lights_out_game_button)
         lightsOutGameButton.setOnClickListener {
@@ -75,21 +79,32 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.appbar_menu, menu)
+        //val item = menu.findItem((R.id.action_light_theme)
+
         return super.onCreateOptionsMenu(menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         // Determine which menu option was selected
         return when (item.itemId) {
-            R.id.action_menu -> {
-                true
-            }
             R.id.action_lights_out -> {
                 lightsOutGameButton.performClick()
                 true
             }
             R.id.action_pizza_party -> {
                 pizzaPartyGameButton.performClick()
+                true
+            }
+            R.id.action_light_theme -> {
+                setTheme(R.style.Theme_Menu)
+                setTheme(R.style.Theme_LightsOut)
+                setTheme(R.style.Theme_PizzaParty)
+                true
+            }
+            R.id.action_dark_theme -> {
+                setTheme(R.style.Theme_MenuDark)
+                setTheme(R.style.Theme_LightsOutDark)
+                setTheme(R.style.Theme_PizzaPartyDark)
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -124,5 +139,4 @@ class MainActivity : AppCompatActivity() {
         super.onResume()
         Log.d(TAG, "onResume")
     }
-}
 }

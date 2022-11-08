@@ -119,14 +119,15 @@ class LightsOutActivity : AppCompatActivity() {
                 startActivity(intent)
                 true
             }
-            R.id.action_lights_out -> {
-//                val intent = Intent(this, LightsOutActivity::class.java)
-//                startActivity(intent)
-                true
-            }
             R.id.action_pizza_party -> {
                 val intent = Intent(this, PizzaPartyActivity::class.java)
                 startActivity(intent)
+                true
+            }
+            R.id.action_light_theme -> {
+                true
+            }
+            R.id.action_dark_theme -> {
                 true
             }
             else -> super.onOptionsItemSelected(item)

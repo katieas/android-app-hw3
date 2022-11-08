@@ -7,9 +7,7 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.EditText
-import android.widget.RadioGroup
-import android.widget.TextView
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.example.hw3.MainActivity
 import com.example.hw3.R
@@ -23,7 +21,9 @@ class PizzaPartyActivity : AppCompatActivity() {
     private lateinit var numAttendEditText: EditText
     private lateinit var numPizzasTextView: TextView
     private lateinit var howHungryRadioGroup: RadioGroup
+    private lateinit var hungerLevel: PizzaCalculator.HungerLevel
     private var totalPizzas = 0
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,7 +34,27 @@ class PizzaPartyActivity : AppCompatActivity() {
         //sets initial value to 0 rather than %d
         numPizzasTextView.text = resources.getString(R.string.total_pizzas, 0)
 
-        howHungryRadioGroup = findViewById(R.id.hungry_radio_group)
+        val spinner = findViewById<Spinner>(R.id.hungry_spinner)
+        val adapter = ArrayAdapter.createFromResource(
+            this, R.array.hungry_array, android.R.layout.simple_spinner_item)
+
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spinner.adapter = adapter
+
+        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                //val item = parent?.getItemAtPosition(position) as String
+                //Toast.makeText(this@PizzaPartyActivity, item, Toast.LENGTH_SHORT).show()
+                hungerLevel = when (parent?.getItemAtPosition(position) as String) {
+                    "light" -> PizzaCalculator.HungerLevel.LIGHT
+                    "medium" -> PizzaCalculator.HungerLevel.MEDIUM
+                    else -> PizzaCalculator.HungerLevel.RAVENOUS
+                }
+            }
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+        }
+
+        //howHungryRadioGroup = findViewById(R.id.hungry_radio_group)
 
         Log.d(TAG, "onCreate")
 
@@ -96,12 +116,12 @@ class PizzaPartyActivity : AppCompatActivity() {
         // Convert the text into an integer
         val numAttend = numAttendStr.toIntOrNull() ?: 0
 
-        // Get hunger level selection
-        val hungerLevel = when (howHungryRadioGroup.getCheckedRadioButtonId()) {
-            R.id.light_radio_button -> PizzaCalculator.HungerLevel.LIGHT
-            R.id.medium_radio_button -> PizzaCalculator.HungerLevel.MEDIUM
-            else -> PizzaCalculator.HungerLevel.RAVENOUS
-        }
+//        // Get hunger level selection
+//        val hungerLevel = when (howHungryRadioGroup.getCheckedRadioButtonId()) {
+//            R.id.light_radio_button -> PizzaCalculator.HungerLevel.LIGHT
+//            R.id.medium_radio_button -> PizzaCalculator.HungerLevel.MEDIUM
+//            else -> PizzaCalculator.HungerLevel.RAVENOUS
+//        }
 
         // Get the number of pizzas needed
         val calc = PizzaCalculator(numAttend, hungerLevel)
@@ -131,9 +151,11 @@ class PizzaPartyActivity : AppCompatActivity() {
                 startActivity(intent)
                 true
             }
-            R.id.action_pizza_party -> {
-//                val intent = Intent(this, PizzaPartyActivity::class.java)
-//                startActivity(intent)
+            R.id.action_light_theme -> {
+
+                true
+            }
+            R.id.action_dark_theme -> {
                 true
             }
             else -> super.onOptionsItemSelected(item)
