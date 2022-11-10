@@ -25,8 +25,11 @@ class PizzaPartyActivity : AppCompatActivity() {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        Log.d(TAG, "onCreate")
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pizza_party)
+
+
         numAttendEditText = findViewById(R.id.num_attend_edit_text)
         numPizzasTextView = findViewById(R.id.num_pizzas_text_view)
 
@@ -53,14 +56,12 @@ class PizzaPartyActivity : AppCompatActivity() {
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
 
-        Log.d(TAG, "onCreate")
-
-        //Do we need to restore saveInstanceState
         if (savedInstanceState != null) {
             // we have a saeInstanceState object --> saved data!
             totalPizzas = savedInstanceState.getInt(KEY_TOTAL_PIZZAS)
             displayTotal()
         }
+
     }
 
     private fun displayTotal() {
@@ -68,17 +69,17 @@ class PizzaPartyActivity : AppCompatActivity() {
         numPizzasTextView.text = totalText
     }
 
-    override fun onSaveInstanceState(outState: Bundle, outPersistentState: PersistableBundle) {
-        super.onSaveInstanceState(outState, outPersistentState)
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
         outState.putInt(KEY_TOTAL_PIZZAS, totalPizzas)
         //outState.putInt("totalPizzas", 10)
     }
 
-    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
-        super.onRestoreInstanceState(savedInstanceState)
-        totalPizzas = savedInstanceState.getInt(KEY_TOTAL_PIZZAS)
-        displayTotal()
-    }
+//    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+//        super.onRestoreInstanceState(savedInstanceState)
+//        totalPizzas = savedInstanceState.getInt(KEY_TOTAL_PIZZAS)
+//        displayTotal()
+//    }
 
     override fun onStart() {
         super.onStart()
@@ -118,8 +119,8 @@ class PizzaPartyActivity : AppCompatActivity() {
         displayTotal()
 
         // Place totalPizzas into the string resource and display
-        val totalText = getString(R.string.total_pizzas, totalPizzas)
-        numPizzasTextView.setText(totalText)
+//        val totalText = getString(R.string.total_pizzas, totalPizzas)
+//        numPizzasTextView.setText(totalText)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

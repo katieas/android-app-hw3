@@ -38,8 +38,8 @@ class MainActivity : AppCompatActivity() {
         pizzaPartyGameButton.setOnClickListener(this::onPizzaPartyButtonGameClick)
 
 
-        lightsOutShareButton = findViewById(R.id.share_lights_out_button)
-        lightsOutShareButton.setOnClickListener(this::onLightsOutShareButtonClick)
+//        lightsOutShareButton = findViewById(R.id.share_lights_out_button)
+//        lightsOutShareButton.setOnClickListener(this::onLightsOutShareButtonClick)
 
         pizzaPartyShareButton = findViewById(R.id.share_pizza_party_button)
         pizzaPartyShareButton.setOnClickListener(this::onPizzaPartyShareButtonClick)

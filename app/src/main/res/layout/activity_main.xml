@@ -23,7 +23,7 @@
         <Button
             android:id="@+id/lights_out_game_button"
             android:layout_width="150dp"
-            android:layout_height="100dp"
+            android:layout_height="200dp"
             android:layout_margin="10dp"
             android:text="Lights Out Game"
             android:backgroundTint="@color/black"
@@ -32,10 +32,10 @@
         <Button
             android:id="@+id/pizza_party_game_button"
             android:layout_width="150dp"
-            android:layout_height="100dp"
+            android:layout_height="200dp"
             android:layout_margin="10dp"
             android:text="Pizza Party Game"
-            android:toRightOf="@id/lights_out_game_button"
+            android:layout_toRightOf="@id/lights_out_game_button"
             android:backgroundTint="@color/orange"
             android:textColor="@color/red"/>
 
@@ -46,7 +46,8 @@
         android:id="@+id/share_pizza_party_button"
         android:text="Share"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_margin="30dp"/>
 
 
     <!--    <Button-->
