@@ -7,11 +7,16 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Button
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.hw3.lightsout.LightsOutActivity
 import com.example.hw3.pizzaparty.PizzaPartyActivity
 
 const val TAG = "MainActivityLifeCycle" //getString(R.string.tag)
+const val LIGHTS_OUT_WINS_KEY = "totalLightsOutWins"
+const val PIZZA_HUNGER_LEVEL_KEY = "pizzaHungerLevel"
+const val TOTAL_PIZZAS_KEY = "totalPizzas"
+const val PIZZA_PARTY_SIZE_KEY = "pizzaPartySize"
 
 class MainActivity : AppCompatActivity() {
 
@@ -19,6 +24,11 @@ class MainActivity : AppCompatActivity() {
     private lateinit var pizzaPartyGameButton: Button
     private lateinit var pizzaPartyShareButton: Button
     private lateinit var lightsOutShareButton: Button
+    private lateinit var totalPizzasView: TextView
+    var totalLightsOutWins = 0
+    var pizzaHungerLevel = ""
+    var totalPizzas = 0
+    var pizzaPartySize = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,6 +53,18 @@ class MainActivity : AppCompatActivity() {
 
         pizzaPartyShareButton = findViewById(R.id.share_pizza_party_button)
         pizzaPartyShareButton.setOnClickListener(this::onPizzaPartyShareButtonClick)
+
+        var extras = getIntent().getExtras()
+        if (extras != null) {
+            totalLightsOutWins = extras.getInt(LIGHTS_OUT_WINS_KEY)
+            //pizzaHungerLevel = extras.getString(PIZZA_HUNGER_LEVEL_KEY)
+            totalPizzas = extras.getInt(TOTAL_PIZZAS_KEY)
+            pizzaPartySize = extras.getInt(PIZZA_PARTY_SIZE_KEY)
+        }
+        Log.d("TOTAL PIZZAS", totalPizzas.toString())
+
+        totalPizzasView = findViewById(R.id.total_pizzas_view)
+        updateMainView()
     }
 
     // APP BAR
@@ -82,6 +104,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun onLightsOutButtonGameClick(view: View) {
         val intent = Intent(this, LightsOutActivity::class.java)
+        //intent.putExtra(LIGHTS_OUT_WINS_KEY, totalLightsOutWins)
         startActivity(intent)
     }
 
@@ -116,6 +139,10 @@ class MainActivity : AppCompatActivity() {
             val chooser = Intent.createChooser(intent, "Share Pizza Calculation")
             startActivity(chooser)
         }
+    }
+
+    private fun updateMainView() {
+        totalPizzasView.text = totalPizzasView.text.toString() + totalPizzas.toString()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

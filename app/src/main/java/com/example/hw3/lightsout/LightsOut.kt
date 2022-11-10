@@ -20,6 +20,7 @@ import kotlin.random.Random
 
 const val TAG = "LifeCycle"
 const val KEY_TOTAL_WINS = "totalWins"
+const val GAME_STATE = "gameState"
 
 class LightsOutActivity : AppCompatActivity() {
 
@@ -46,7 +47,6 @@ class LightsOutActivity : AppCompatActivity() {
         lightOffColor = ContextCompat.getColor(this, R.color.black)
 
         game = LightsOutGame()
-        startGame()
 
         newGameButton = findViewById(R.id.new_game_button)
         newGameButton.setOnClickListener(this::onNewGameClick)
@@ -57,9 +57,11 @@ class LightsOutActivity : AppCompatActivity() {
 
         Log.d(TAG, "onCreate")
 
-        //Do we need to restore saveInstanceState
-        if (savedInstanceState != null) {
-            // we have a saeInstanceState object --> saved data!
+        if (savedInstanceState == null) {
+            startGame()
+        } else {
+            game.state = savedInstanceState.getString(GAME_STATE)!!
+            setButtonColors()
             totalWins = savedInstanceState.getInt(KEY_TOTAL_WINS)
             //displayTotal()
         }
@@ -68,12 +70,13 @@ class LightsOutActivity : AppCompatActivity() {
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putInt(KEY_TOTAL_WINS, totalWins)
+        outState.putString(GAME_STATE, game.state)
     }
 
-    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
-        super.onRestoreInstanceState(savedInstanceState)
-        totalWins = savedInstanceState.getInt(KEY_TOTAL_WINS)
-    }
+//    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+//        super.onRestoreInstanceState(savedInstanceState)
+//        totalWins = savedInstanceState.getInt(KEY_TOTAL_WINS)
+//    }
 
     private fun startGame() {
         game.newGame()
@@ -92,6 +95,7 @@ class LightsOutActivity : AppCompatActivity() {
 
         // Congratulate the user if the game is over
         if (game.isGameOver) {
+            totalWins++
             Toast.makeText(this, R.string.congrats, Toast.LENGTH_SHORT).show()
         }
     }
@@ -109,12 +113,12 @@ class LightsOutActivity : AppCompatActivity() {
 
         // Congratulate the user if the game is over
         if (game.isGameOver) {
+            totalWins++
             Toast.makeText(this, R.string.congrats, Toast.LENGTH_SHORT).show()
         }
     }
 
     private fun setButtonColors() {
-
         // Set all buttons' background color
         for (buttonIndex in 0 until lightGridLayout.childCount) {
             val gridButton = lightGridLayout.getChildAt(buttonIndex)
@@ -147,6 +151,7 @@ class LightsOutActivity : AppCompatActivity() {
         return when (item.itemId) {
             R.id.action_menu -> {
                 val intent = Intent(this, MainActivity::class.java)
+                intent.putExtra(KEY_TOTAL_WINS, totalWins)
                 startActivity(intent)
                 true
             }

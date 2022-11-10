@@ -11,6 +11,7 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.example.hw3.MainActivity
 import com.example.hw3.R
+import com.example.hw3.lightsout.KEY_TOTAL_WINS
 import com.example.hw3.lightsout.LightsOutActivity
 
 private const val TAG = "Lifecycle"
@@ -133,6 +134,7 @@ class PizzaPartyActivity : AppCompatActivity() {
         return when (item.itemId) {
             R.id.action_menu -> {
                 val intent = Intent(this, MainActivity::class.java)
+                intent.putExtra(KEY_TOTAL_PIZZAS, totalPizzas)
                 startActivity(intent)
                 true
             }
