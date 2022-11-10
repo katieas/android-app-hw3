@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
@@ -11,29 +13,55 @@
     android:paddingTop="16dp"
     tools:context="com.example.hw3.MainActivity">
 
-    <Button
-        android:id="@+id/lights_out_game_button"
-        android:text="Lights Out Game"
+    <GridLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:columnCount="2"
+        android:rowCount="1">
 
-    <Button
-        android:id="@+id/pizza_party_game_button"
-        android:text="Pizza Party Game"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        <Button
+            android:id="@+id/lights_out_game_button"
+            android:layout_width="150dp"
+            android:layout_height="100dp"
+            android:layout_margin="10dp"
+            android:text="Lights Out Game"
+            android:backgroundTint="@color/black"
+            android:textColor="@color/yellow"/>
+
+        <Button
+            android:id="@+id/pizza_party_game_button"
+            android:layout_width="150dp"
+            android:layout_height="100dp"
+            android:layout_margin="10dp"
+            android:text="Pizza Party Game"
+            android:toRightOf="@id/lights_out_game_button"
+            android:backgroundTint="@color/orange"
+            android:textColor="@color/red"/>
+
+    </GridLayout>
+
 
     <Button
         android:id="@+id/share_pizza_party_button"
-        android:text="Share Pizza Party Calculation"
+        android:text="Share"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
-    <Button
-        android:id="@+id/share_lights_out_button"
-        android:text="Share Lights Out Stats"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+
+    <!--    <Button-->
+<!--        android:id="@+id/share_pizza_party_button"-->
+<!--        android:text="Share Pizza Party Calculation"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"/>-->
+<!--    -->
+<!--    Might just have one share button... -->
+
+<!--    <Button-->
+<!--        android:id="@+id/share_lights_out_button"-->
+<!--        android:text="Share Lights Out Stats"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"/>-->
 
 
 </LinearLayout>

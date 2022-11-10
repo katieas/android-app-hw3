@@ -48,4 +48,8 @@
         <item name="android:textSize">20sp</item>
     </style>
 
+<!--    <style name="LightsOutButton">-->
+<!--        <item name="color">@color/yellow</item>-->
+<!--    </style>-->
+
 </resources>
