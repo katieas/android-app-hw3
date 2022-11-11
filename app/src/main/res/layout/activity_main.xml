@@ -18,16 +18,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:columnCount="2"
-        android:rowCount="1">
-
-        <Button
-            android:id="@+id/lights_out_game_button"
-            android:layout_width="150dp"
-            android:layout_height="200dp"
-            android:layout_margin="10dp"
-            android:text="Lights Out Game"
-            android:backgroundTint="@color/black"
-            android:textColor="@color/yellow"/>
+        android:rowCount="2">
 
         <Button
             android:id="@+id/pizza_party_game_button"
@@ -39,6 +30,43 @@
             android:backgroundTint="@color/orange"
             android:textColor="@color/red"/>
 
+        <Button
+            android:id="@+id/lights_out_game_button"
+            android:layout_width="150dp"
+            android:layout_height="200dp"
+            android:layout_margin="10dp"
+            android:text="Lights Out Game"
+            android:backgroundTint="@color/black"
+            android:textColor="@color/yellow"/>
+
+        <TextView
+            android:id="@+id/party_size_view"
+            android:text="Party Size: "
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"/>
+
+        <TextView
+            android:id="@+id/lights_out_wins_view"
+            android:text="Lights Out Wins: "
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_rowSpan="2"
+            android:layout_marginLeft="15dp"/>
+
+        <TextView
+            android:id="@+id/hunger_level_view"
+            android:text="Hunger Level: "
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"/>
+
+        <TextView
+            android:id="@+id/total_pizzas_view"
+            android:text="Total Pizzas: "
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"/>
     </GridLayout>
 
 
@@ -64,10 +92,6 @@
 <!--        android:layout_width="wrap_content"-->
 <!--        android:layout_height="wrap_content"/>-->
 
-    <TextView
-        android:id="@+id/total_pizzas_view"
-        android:text="Total Pizzas: "
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+
 
 </LinearLayout>

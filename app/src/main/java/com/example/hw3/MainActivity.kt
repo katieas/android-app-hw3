@@ -13,10 +13,10 @@ import com.example.hw3.lightsout.LightsOutActivity
 import com.example.hw3.pizzaparty.PizzaPartyActivity
 
 const val TAG = "MainActivityLifeCycle" //getString(R.string.tag)
-const val LIGHTS_OUT_WINS_KEY = "totalLightsOutWins"
-const val PIZZA_HUNGER_LEVEL_KEY = "pizzaHungerLevel"
-const val TOTAL_PIZZAS_KEY = "totalPizzas"
-const val PIZZA_PARTY_SIZE_KEY = "pizzaPartySize"
+const val KEY_LIGHTS_OUT_WINS = "totalLightsOutWins"
+const val KEY_PIZZA_HUNGER_LEVEL = "pizzaHungerLevel"
+const val KEY_TOTAL_PIZZAS = "totalPizzas"
+const val KEY_PIZZA_PARTY_SIZE = "pizzaPartySize"
 
 class MainActivity : AppCompatActivity() {
 
@@ -24,9 +24,12 @@ class MainActivity : AppCompatActivity() {
     private lateinit var pizzaPartyGameButton: Button
     private lateinit var pizzaPartyShareButton: Button
     private lateinit var lightsOutShareButton: Button
+    private lateinit var lightsOutWinsView: TextView
+    private lateinit var pizzaPartySizeView: TextView
+    private lateinit var pizzaHungerLevelView: TextView
     private lateinit var totalPizzasView: TextView
     var totalLightsOutWins = 0
-    var pizzaHungerLevel = ""
+    var pizzaHungerLevel = "?"
     var totalPizzas = 0
     var pizzaPartySize = 0
 
@@ -34,10 +37,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         Log.d(TAG, "onCreate")
-
-//        if (savedInstanceState != null) {
-//            //
-//        }
 
         var toggleLightTheme = true
 
@@ -53,18 +52,40 @@ class MainActivity : AppCompatActivity() {
 
         pizzaPartyShareButton = findViewById(R.id.share_pizza_party_button)
         pizzaPartyShareButton.setOnClickListener(this::onPizzaPartyShareButtonClick)
-
         var extras = getIntent().getExtras()
         if (extras != null) {
-            totalLightsOutWins = extras.getInt(LIGHTS_OUT_WINS_KEY)
-            //pizzaHungerLevel = extras.getString(PIZZA_HUNGER_LEVEL_KEY)
-            totalPizzas = extras.getInt(TOTAL_PIZZAS_KEY)
-            pizzaPartySize = extras.getInt(PIZZA_PARTY_SIZE_KEY)
+            totalLightsOutWins = extras.getInt(KEY_LIGHTS_OUT_WINS)
+            pizzaHungerLevel = extras.getString(KEY_PIZZA_HUNGER_LEVEL).toString()
+            totalPizzas = extras.getInt(KEY_TOTAL_PIZZAS)
+            pizzaPartySize = extras.getInt(KEY_PIZZA_PARTY_SIZE)
         }
-        Log.d("TOTAL PIZZAS", totalPizzas.toString())
 
+        lightsOutWinsView = findViewById(R.id.lights_out_wins_view)
+        pizzaPartySizeView = findViewById(R.id.party_size_view)
+        pizzaHungerLevelView = findViewById(R.id.hunger_level_view)
         totalPizzasView = findViewById(R.id.total_pizzas_view)
+
+
+//        if (savedInstanceState != null) {
+//            // check if data was changed from intent
+//            if (totalLightsOutWins == 0) {
+//                totalLightsOutWins = savedInstanceState.getInt(LIGHTS_OUT_WINS_KEY)
+//            }
+//            if (totalPizzas == 0) {
+//                pizzaPartySize = savedInstanceState.getInt(PIZZA_PARTY_SIZE_KEY)
+//                totalPizzas = savedInstanceState.getInt(TOTAL_PIZZAS_KEY)
+//            }
+//        }
+
         updateMainView()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putInt(KEY_PIZZA_PARTY_SIZE, pizzaPartySize)
+        outState.putString(KEY_PIZZA_HUNGER_LEVEL, pizzaHungerLevel)
+        outState.putInt(KEY_TOTAL_PIZZAS, totalPizzas)
+        outState.putInt(KEY_LIGHTS_OUT_WINS, totalLightsOutWins)
     }
 
     // APP BAR
@@ -142,12 +163,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun updateMainView() {
+        // Lights Out Stats
+        lightsOutWinsView.text = lightsOutWinsView.text.toString() + totalLightsOutWins.toString()
+        // Pizza Party Stats
+        pizzaPartySizeView.text = pizzaPartySizeView.text.toString() + pizzaPartySize.toString()
+        pizzaHungerLevelView.text = pizzaHungerLevelView.text.toString() + pizzaHungerLevel.toString()
         totalPizzasView.text = totalPizzasView.text.toString() + totalPizzas.toString()
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-    }
+
 
     override fun onStart() {
         super.onStart()

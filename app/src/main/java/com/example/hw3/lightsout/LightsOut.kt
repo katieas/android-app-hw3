@@ -13,13 +13,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.children
 import androidx.core.view.size
-import com.example.hw3.MainActivity
-import com.example.hw3.R
+import com.example.hw3.*
 import com.example.hw3.pizzaparty.PizzaPartyActivity
 import kotlin.random.Random
 
-const val TAG = "LifeCycle"
-const val KEY_TOTAL_WINS = "totalWins"
+const val TAG = "LightsOutLifeCycle"
+//const val KEY_TOTAL_WINS = "totalWins"
 const val GAME_STATE = "gameState"
 
 class LightsOutActivity : AppCompatActivity() {
@@ -30,7 +29,10 @@ class LightsOutActivity : AppCompatActivity() {
     private lateinit var randomMoveButton: Button
     private var lightOnColor = 0
     private var lightOffColor = 0
-    private var totalWins = 0
+    private var totalLightsOutWins = 0
+    private var totalPizzas = 0
+    private var pizzaPartySize = 0
+    private var pizzaHungerLevel = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,6 +56,13 @@ class LightsOutActivity : AppCompatActivity() {
         randomMoveButton = findViewById(R.id.random_move_button)
         randomMoveButton.setOnClickListener(this::onRandomMoveButtonClick)
 
+        var extras = getIntent().getExtras()
+        if (extras != null) {
+            totalLightsOutWins = extras.getInt(KEY_LIGHTS_OUT_WINS)
+            pizzaHungerLevel = extras.getString(KEY_PIZZA_HUNGER_LEVEL).toString()
+            totalPizzas = extras.getInt(KEY_TOTAL_PIZZAS)
+            pizzaPartySize = extras.getInt(KEY_PIZZA_PARTY_SIZE)
+        }
 
         Log.d(TAG, "onCreate")
 
@@ -62,14 +71,14 @@ class LightsOutActivity : AppCompatActivity() {
         } else {
             game.state = savedInstanceState.getString(GAME_STATE)!!
             setButtonColors()
-            totalWins = savedInstanceState.getInt(KEY_TOTAL_WINS)
+            totalLightsOutWins = savedInstanceState.getInt(KEY_LIGHTS_OUT_WINS)
             //displayTotal()
         }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putInt(KEY_TOTAL_WINS, totalWins)
+        outState.putInt(KEY_LIGHTS_OUT_WINS, totalLightsOutWins)
         outState.putString(GAME_STATE, game.state)
     }
 
@@ -95,7 +104,7 @@ class LightsOutActivity : AppCompatActivity() {
 
         // Congratulate the user if the game is over
         if (game.isGameOver) {
-            totalWins++
+            totalLightsOutWins++
             Toast.makeText(this, R.string.congrats, Toast.LENGTH_SHORT).show()
         }
     }
@@ -113,7 +122,7 @@ class LightsOutActivity : AppCompatActivity() {
 
         // Congratulate the user if the game is over
         if (game.isGameOver) {
-            totalWins++
+            totalLightsOutWins++
             Toast.makeText(this, R.string.congrats, Toast.LENGTH_SHORT).show()
         }
     }
@@ -151,12 +160,19 @@ class LightsOutActivity : AppCompatActivity() {
         return when (item.itemId) {
             R.id.action_menu -> {
                 val intent = Intent(this, MainActivity::class.java)
-                intent.putExtra(KEY_TOTAL_WINS, totalWins)
+                intent.putExtra(KEY_TOTAL_PIZZAS, totalPizzas)
+                intent.putExtra(KEY_PIZZA_PARTY_SIZE, pizzaPartySize)
+                intent.putExtra(KEY_PIZZA_HUNGER_LEVEL, pizzaHungerLevel)
+                intent.putExtra(KEY_LIGHTS_OUT_WINS, totalLightsOutWins)
                 startActivity(intent)
                 true
             }
             R.id.action_pizza_party -> {
                 val intent = Intent(this, PizzaPartyActivity::class.java)
+                intent.putExtra(KEY_TOTAL_PIZZAS, totalPizzas)
+                intent.putExtra(KEY_PIZZA_PARTY_SIZE, pizzaPartySize)
+                intent.putExtra(KEY_PIZZA_HUNGER_LEVEL, pizzaHungerLevel)
+                intent.putExtra(KEY_LIGHTS_OUT_WINS, totalLightsOutWins)
                 startActivity(intent)
                 true
             }
@@ -194,5 +210,4 @@ class LightsOutActivity : AppCompatActivity() {
         super.onResume()
         Log.d(TAG, "onResume")
     }
-
 }

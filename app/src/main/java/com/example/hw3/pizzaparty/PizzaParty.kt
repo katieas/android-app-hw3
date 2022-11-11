@@ -2,20 +2,16 @@ package com.example.hw3.pizzaparty
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import com.example.hw3.MainActivity
-import com.example.hw3.R
-import com.example.hw3.lightsout.KEY_TOTAL_WINS
+import com.example.hw3.*
 import com.example.hw3.lightsout.LightsOutActivity
 
-private const val TAG = "Lifecycle"
-private const val KEY_TOTAL_PIZZAS = "totalPizzas"
+private const val TAG = "PizzaPartyLifecycle"
 
 class PizzaPartyActivity : AppCompatActivity() {
 
@@ -23,6 +19,9 @@ class PizzaPartyActivity : AppCompatActivity() {
     private lateinit var numPizzasTextView: TextView
     private lateinit var hungerLevel: PizzaCalculator.HungerLevel
     private var totalPizzas = 0
+    private var pizzaPartySize = 0
+    private var pizzaHungerLevel = ""
+    private var totalLightsOutWins = 0
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,6 +56,14 @@ class PizzaPartyActivity : AppCompatActivity() {
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
 
+        var extras = getIntent().getExtras()
+        if (extras != null) {
+            totalLightsOutWins = extras.getInt(KEY_LIGHTS_OUT_WINS)
+            pizzaHungerLevel = extras.getString(KEY_PIZZA_HUNGER_LEVEL).toString()
+            totalPizzas = extras.getInt(KEY_TOTAL_PIZZAS)
+            pizzaPartySize = extras.getInt(KEY_PIZZA_PARTY_SIZE)
+        }
+
         if (savedInstanceState != null) {
             // we have a saeInstanceState object --> saved data!
             totalPizzas = savedInstanceState.getInt(KEY_TOTAL_PIZZAS)
@@ -73,7 +80,6 @@ class PizzaPartyActivity : AppCompatActivity() {
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putInt(KEY_TOTAL_PIZZAS, totalPizzas)
-        //outState.putInt("totalPizzas", 10)
     }
 
 //    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
@@ -113,9 +119,11 @@ class PizzaPartyActivity : AppCompatActivity() {
 
         // Convert the text into an integer
         val numAttend = numAttendStr.toIntOrNull() ?: 0
+        pizzaPartySize = numAttend
 
+        pizzaHungerLevel = hungerLevel.toString().lowercase()
         // Get the number of pizzas needed
-        val calc = PizzaCalculator(numAttend, hungerLevel)
+        val calc = PizzaCalculator(pizzaPartySize, hungerLevel)
         totalPizzas = calc.totalPizzas
         displayTotal()
 
@@ -135,11 +143,18 @@ class PizzaPartyActivity : AppCompatActivity() {
             R.id.action_menu -> {
                 val intent = Intent(this, MainActivity::class.java)
                 intent.putExtra(KEY_TOTAL_PIZZAS, totalPizzas)
+                intent.putExtra(KEY_PIZZA_PARTY_SIZE, pizzaPartySize)
+                intent.putExtra(KEY_PIZZA_HUNGER_LEVEL, pizzaHungerLevel)
+                intent.putExtra(KEY_LIGHTS_OUT_WINS, totalLightsOutWins)
                 startActivity(intent)
                 true
             }
             R.id.action_lights_out -> {
                 val intent = Intent(this, LightsOutActivity::class.java)
+                intent.putExtra(KEY_TOTAL_PIZZAS, totalPizzas)
+                intent.putExtra(KEY_PIZZA_PARTY_SIZE, pizzaPartySize)
+                intent.putExtra(KEY_PIZZA_HUNGER_LEVEL, pizzaHungerLevel)
+                intent.putExtra(KEY_LIGHTS_OUT_WINS, totalLightsOutWins)
                 startActivity(intent)
                 true
             }
