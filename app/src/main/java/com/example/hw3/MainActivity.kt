@@ -1,5 +1,6 @@
 package com.example.hw3
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -9,6 +10,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import com.example.hw3.lightsout.LightsOutActivity
 import com.example.hw3.pizzaparty.PizzaPartyActivity
 
@@ -17,6 +19,7 @@ const val KEY_LIGHTS_OUT_WINS = "totalLightsOutWins"
 const val KEY_PIZZA_HUNGER_LEVEL = "pizzaHungerLevel"
 const val KEY_TOTAL_PIZZAS = "totalPizzas"
 const val KEY_PIZZA_PARTY_SIZE = "pizzaPartySize"
+const val KEY_TOGGLE_LIGHT_MODE = "toggleLightMode"
 
 class MainActivity : AppCompatActivity() {
 
@@ -32,13 +35,14 @@ class MainActivity : AppCompatActivity() {
     var pizzaHungerLevel = "?"
     var totalPizzas = 0
     var pizzaPartySize = 0
+    var toggleLightMode = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         Log.d(TAG, "onCreate")
-
-        var toggleLightTheme = true
+//
+//        var toggleLightTheme = true
 
         lightsOutGameButton = findViewById(R.id.lights_out_game_button)
         lightsOutGameButton.setOnClickListener(this::onLightsOutButtonGameClick)
@@ -66,8 +70,8 @@ class MainActivity : AppCompatActivity() {
         totalPizzasView = findViewById(R.id.total_pizzas_view)
 
 
-//        if (savedInstanceState != null) {
-//            // check if data was changed from intent
+        if (savedInstanceState != null) {
+            // check if data was changed from intent
 //            if (totalLightsOutWins == 0) {
 //                totalLightsOutWins = savedInstanceState.getInt(LIGHTS_OUT_WINS_KEY)
 //            }
@@ -75,7 +79,9 @@ class MainActivity : AppCompatActivity() {
 //                pizzaPartySize = savedInstanceState.getInt(PIZZA_PARTY_SIZE_KEY)
 //                totalPizzas = savedInstanceState.getInt(TOTAL_PIZZAS_KEY)
 //            }
-//        }
+            toggleLightMode = savedInstanceState.getBoolean(KEY_TOGGLE_LIGHT_MODE)
+        }
+
 
         updateMainView()
     }
@@ -86,18 +92,20 @@ class MainActivity : AppCompatActivity() {
         outState.putString(KEY_PIZZA_HUNGER_LEVEL, pizzaHungerLevel)
         outState.putInt(KEY_TOTAL_PIZZAS, totalPizzas)
         outState.putInt(KEY_LIGHTS_OUT_WINS, totalLightsOutWins)
+        outState.putBoolean(KEY_TOGGLE_LIGHT_MODE, toggleLightMode)
     }
 
     // APP BAR
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.appbar_menu, menu)
         //val item = menu.findItem((R.id.action_light_theme)
-
         return super.onCreateOptionsMenu(menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         // Determine which menu option was selected
+        invalidateOptionsMenu()
+        invalidateOptionsMenu()
         return when (item.itemId) {
             R.id.action_lights_out -> {
                 lightsOutGameButton.performClick()
@@ -108,29 +116,46 @@ class MainActivity : AppCompatActivity() {
                 true
             }
             R.id.action_light_theme -> {
-                setTheme(R.style.Theme_Menu)
-                setTheme(R.style.Theme_LightsOut)
-                setTheme(R.style.Theme_PizzaParty)
+                toggleLightMode = true
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
                 true
             }
             R.id.action_dark_theme -> {
-                setTheme(R.style.Theme_MenuDark)
-                setTheme(R.style.Theme_LightsOutDark)
-                setTheme(R.style.Theme_PizzaPartyDark)
+                toggleLightMode = false
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
                 true
             }
             else -> super.onOptionsItemSelected(item)
         }
+//        invalidateOptionsMenu()
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu): Boolean {
+        // toggle light/dark mode menu item
+        val lightMode = menu.findItem(R.id.action_light_theme)
+        val darkMode = menu.findItem(R.id.action_dark_theme)
+        Log.d("toggleLightThemeVal", toggleLightMode.toString())
+        if (toggleLightMode) {
+            lightMode.isVisible = false
+            darkMode.isVisible = true
+        }
+        else {
+            lightMode.isVisible = true
+            darkMode.isVisible = false
+        }
+        return super.onPrepareOptionsMenu(menu)
     }
 
     private fun onLightsOutButtonGameClick(view: View) {
         val intent = Intent(this, LightsOutActivity::class.java)
         //intent.putExtra(LIGHTS_OUT_WINS_KEY, totalLightsOutWins)
+        intent.putExtra(KEY_TOGGLE_LIGHT_MODE, toggleLightMode)
         startActivity(intent)
     }
 
     private fun onPizzaPartyButtonGameClick(view: View) {
         val intent = Intent(this, PizzaPartyActivity::class.java)
+        intent.putExtra(KEY_TOGGLE_LIGHT_MODE, toggleLightMode)
         startActivity(intent)
     }
 

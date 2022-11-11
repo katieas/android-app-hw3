@@ -8,6 +8,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import com.example.hw3.*
 import com.example.hw3.lightsout.LightsOutActivity
 
@@ -22,7 +23,7 @@ class PizzaPartyActivity : AppCompatActivity() {
     private var pizzaPartySize = 0
     private var pizzaHungerLevel = ""
     private var totalLightsOutWins = 0
-
+    private var toggleLightMode = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         Log.d(TAG, "onCreate")
@@ -62,12 +63,14 @@ class PizzaPartyActivity : AppCompatActivity() {
             pizzaHungerLevel = extras.getString(KEY_PIZZA_HUNGER_LEVEL).toString()
             totalPizzas = extras.getInt(KEY_TOTAL_PIZZAS)
             pizzaPartySize = extras.getInt(KEY_PIZZA_PARTY_SIZE)
+            toggleLightMode = extras.getBoolean(KEY_TOGGLE_LIGHT_MODE)
         }
 
         if (savedInstanceState != null) {
             // we have a saeInstanceState object --> saved data!
             totalPizzas = savedInstanceState.getInt(KEY_TOTAL_PIZZAS)
             displayTotal()
+            toggleLightMode = savedInstanceState.getBoolean(KEY_TOGGLE_LIGHT_MODE)
         }
 
     }
@@ -80,6 +83,7 @@ class PizzaPartyActivity : AppCompatActivity() {
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putInt(KEY_TOTAL_PIZZAS, totalPizzas)
+        outState.putBoolean(KEY_TOGGLE_LIGHT_MODE, toggleLightMode)
     }
 
 //    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
@@ -146,6 +150,7 @@ class PizzaPartyActivity : AppCompatActivity() {
                 intent.putExtra(KEY_PIZZA_PARTY_SIZE, pizzaPartySize)
                 intent.putExtra(KEY_PIZZA_HUNGER_LEVEL, pizzaHungerLevel)
                 intent.putExtra(KEY_LIGHTS_OUT_WINS, totalLightsOutWins)
+                intent.putExtra(KEY_TOGGLE_LIGHT_MODE, toggleLightMode)
                 startActivity(intent)
                 true
             }
@@ -155,17 +160,40 @@ class PizzaPartyActivity : AppCompatActivity() {
                 intent.putExtra(KEY_PIZZA_PARTY_SIZE, pizzaPartySize)
                 intent.putExtra(KEY_PIZZA_HUNGER_LEVEL, pizzaHungerLevel)
                 intent.putExtra(KEY_LIGHTS_OUT_WINS, totalLightsOutWins)
+                intent.putExtra(KEY_TOGGLE_LIGHT_MODE, toggleLightMode)
                 startActivity(intent)
                 true
             }
             R.id.action_light_theme -> {
-
+                toggleLightMode = true
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
                 true
             }
             R.id.action_dark_theme -> {
+                toggleLightMode = false
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
                 true
             }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu): Boolean {
+        // toggle light/dark mode menu item
+        val lightMode = menu.findItem(R.id.action_light_theme)
+        val darkMode = menu.findItem(R.id.action_dark_theme)
+        if (toggleLightMode) {
+            lightMode.isVisible = false
+            darkMode.isVisible = true
+        }
+        else {
+            lightMode.isVisible = true
+            darkMode.isVisible = false
+        }
+
+        // hide pizza party
+        menu.findItem(R.id.action_pizza_party).isVisible = false
+
+        return super.onPrepareOptionsMenu(menu)
     }
 }
