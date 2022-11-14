@@ -1,17 +1,22 @@
 package com.example.hw3
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
+import android.text.InputType
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Button
+import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import com.example.hw3.lightsout.LightsOutActivity
 import com.example.hw3.pizzaparty.PizzaPartyActivity
+
 
 const val TAG = "MainActivityLifeCycle" //getString(R.string.tag)
 const val KEY_LIGHTS_OUT_WINS = "totalLightsOutWins"
@@ -154,17 +159,47 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun onLightsOutShareButtonClick(view: View) {
-        val intent = Intent(Intent.ACTION_SEND)
-        // Supply extra that is plain text
-        intent.type = "text/plain"
-        intent.putExtra(Intent.EXTRA_SUBJECT, "Lights Out Game")
-        intent.putExtra(Intent.EXTRA_TEXT, "Lights Out Wins: $totalLightsOutWins")
+        val builder: AlertDialog.Builder = android.app.AlertDialog.Builder(this)
+        builder.setTitle("Custom Text Message")
 
-        // If at least one app can handle intent, allow user to choose
-        if (intent.resolveActivity(packageManager) != null) {
-            val chooser = Intent.createChooser(intent, "Share Lights Out Game Statistics")
-            startActivity(chooser)
-        }
+        val input = EditText(this)
+        input.setHint("Enter Text")
+        input.inputType = InputType.TYPE_CLASS_TEXT
+        builder.setView(input)
+
+        //var customMessage: String? = null
+        builder.setPositiveButton("OK", DialogInterface.OnClickListener { dialog, which ->
+            var customMessage = input.text.toString()
+            val intent = Intent(Intent.ACTION_SEND)
+            // Supply extra that is plain text
+            intent.type = "text/plain"
+            intent.putExtra(Intent.EXTRA_SUBJECT, "Lights Out Game")
+            intent.putExtra(Intent.EXTRA_TEXT, "Lights Out Wins: $totalLightsOutWins $customMessage")
+
+            // If at least one app can handle intent, allow user to choose
+            if (intent.resolveActivity(packageManager) != null) {
+                val chooser = Intent.createChooser(intent, "Share Lights Out Game Statistics")
+                startActivity(chooser)
+            }
+        })
+        builder.setNegativeButton("Cancel", DialogInterface.OnClickListener { dialog, which ->
+            dialog.cancel()
+        })
+        builder.show()
+
+//        if (customMessage != null) {
+//            val intent = Intent(Intent.ACTION_SEND)
+//            // Supply extra that is plain text
+//            intent.type = "text/plain"
+//            intent.putExtra(Intent.EXTRA_SUBJECT, "Lights Out Game")
+//            intent.putExtra(Intent.EXTRA_TEXT, "Lights Out Wins: $totalLightsOutWins $m_text")
+//
+//            // If at least one app can handle intent, allow user to choose
+//            if (intent.resolveActivity(packageManager) != null) {
+//                val chooser = Intent.createChooser(intent, "Share Lights Out Game Statistics")
+//                startActivity(chooser)
+//            }
+//        }
     }
 
     private fun onPizzaPartyShareButtonClick(view: View) {
@@ -172,9 +207,9 @@ class MainActivity : AppCompatActivity() {
         // Supply extra that is plain text
         intent.type = "text/plain"
         intent.putExtra(Intent.EXTRA_SUBJECT, "Pizza Party Game")
-        intent.putExtra(Intent.EXTRA_TEXT, "Party Size: $pizzaPartySize")
-        intent.putExtra(Intent.EXTRA_TEXT, "Hunger Level: $pizzaHungerLevel")
-        intent.putExtra(Intent.EXTRA_TEXT, "Total Pizzas: $totalPizzas")
+        intent.putExtra(Intent.EXTRA_TEXT, "Party Size: $pizzaPartySize Hunger Level: $pizzaHungerLevel Total Pizzas: $totalPizzas")
+//        intent.putExtra(Intent.EXTRA_TEXT, "Hunger Level: $pizzaHungerLevel")
+//        intent.putExtra(Intent.EXTRA_TEXT, "Total Pizzas: $totalPizzas")
 
         // If at least one app can handle intent, allow user to choose
         if (intent.resolveActivity(packageManager) != null) {
