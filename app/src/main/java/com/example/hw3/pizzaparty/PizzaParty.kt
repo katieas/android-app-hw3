@@ -16,6 +16,7 @@ private const val TAG = "PizzaPartyLifecycle"
 
 class PizzaPartyActivity : AppCompatActivity() {
 
+    private lateinit var calcButton: Button
     private lateinit var numAttendEditText: EditText
     private lateinit var numPizzasTextView: TextView
     private lateinit var hungerLevel: PizzaCalculator.HungerLevel
@@ -33,6 +34,9 @@ class PizzaPartyActivity : AppCompatActivity() {
 
         numAttendEditText = findViewById(R.id.num_attend_edit_text)
         numPizzasTextView = findViewById(R.id.num_pizzas_text_view)
+        calcButton = findViewById(R.id.calc_button)
+
+        calcButton.setOnClickListener(this::calculateClick)
 
         //sets initial value to 0 rather than %d
         numPizzasTextView.text = resources.getString(R.string.total_pizzas, 0)
@@ -57,7 +61,7 @@ class PizzaPartyActivity : AppCompatActivity() {
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
 
-        var extras = getIntent().getExtras()
+        val extras = getIntent().getExtras()
         if (extras != null) {
             totalLightsOutWins = extras.getInt(KEY_LIGHTS_OUT_WINS)
             pizzaHungerLevel = extras.getString(KEY_PIZZA_HUNGER_LEVEL).toString()
@@ -117,7 +121,7 @@ class PizzaPartyActivity : AppCompatActivity() {
         Log.d(TAG, "onResume")
     }
 
-    fun calculateClick(view: View) {
+    private fun calculateClick(view: View) {
         // Get the text that was typed into the EditText
         val numAttendStr = numAttendEditText.text.toString()
 

@@ -13,7 +13,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import androidx.core.view.children
-import androidx.core.view.size
 import com.example.hw3.*
 import com.example.hw3.pizzaparty.PizzaPartyActivity
 import kotlin.random.Random
@@ -58,7 +57,7 @@ class LightsOutActivity : AppCompatActivity() {
         randomMoveButton = findViewById(R.id.random_move_button)
         randomMoveButton.setOnClickListener(this::onRandomMoveButtonClick)
 
-        var extras = getIntent().getExtras()
+        val extras = getIntent().getExtras()
         if (extras != null) {
             totalLightsOutWins = extras.getInt(KEY_LIGHTS_OUT_WINS)
             pizzaHungerLevel = extras.getString(KEY_PIZZA_HUNGER_LEVEL).toString()

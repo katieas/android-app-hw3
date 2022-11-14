@@ -1,6 +1,5 @@
 package com.example.hw3
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -31,18 +30,16 @@ class MainActivity : AppCompatActivity() {
     private lateinit var pizzaPartySizeView: TextView
     private lateinit var pizzaHungerLevelView: TextView
     private lateinit var totalPizzasView: TextView
-    var totalLightsOutWins = 0
-    var pizzaHungerLevel = "?"
-    var totalPizzas = 0
-    var pizzaPartySize = 0
-    var toggleLightMode = true
+    private var totalLightsOutWins = 0
+    private var pizzaHungerLevel = "?"
+    private var totalPizzas = 0
+    private var pizzaPartySize = 0
+    private var toggleLightMode = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         Log.d(TAG, "onCreate")
-//
-//        var toggleLightTheme = true
 
         lightsOutGameButton = findViewById(R.id.lights_out_game_button)
         lightsOutGameButton.setOnClickListener(this::onLightsOutButtonGameClick)
@@ -51,17 +48,18 @@ class MainActivity : AppCompatActivity() {
         pizzaPartyGameButton.setOnClickListener(this::onPizzaPartyButtonGameClick)
 
 
-//        lightsOutShareButton = findViewById(R.id.share_lights_out_button)
-//        lightsOutShareButton.setOnClickListener(this::onLightsOutShareButtonClick)
+        lightsOutShareButton = findViewById(R.id.share_lights_out_button)
+        lightsOutShareButton.setOnClickListener(this::onLightsOutShareButtonClick)
 
         pizzaPartyShareButton = findViewById(R.id.share_pizza_party_button)
         pizzaPartyShareButton.setOnClickListener(this::onPizzaPartyShareButtonClick)
-        var extras = getIntent().getExtras()
+        val extras = getIntent().getExtras()
         if (extras != null) {
             totalLightsOutWins = extras.getInt(KEY_LIGHTS_OUT_WINS)
             pizzaHungerLevel = extras.getString(KEY_PIZZA_HUNGER_LEVEL).toString()
             totalPizzas = extras.getInt(KEY_TOTAL_PIZZAS)
             pizzaPartySize = extras.getInt(KEY_PIZZA_PARTY_SIZE)
+            toggleLightMode = extras.getBoolean(KEY_TOGGLE_LIGHT_MODE)
         }
 
         lightsOutWinsView = findViewById(R.id.lights_out_wins_view)
@@ -104,8 +102,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         // Determine which menu option was selected
-        invalidateOptionsMenu()
-        invalidateOptionsMenu()
         return when (item.itemId) {
             R.id.action_lights_out -> {
                 lightsOutGameButton.performClick()
@@ -127,14 +123,12 @@ class MainActivity : AppCompatActivity() {
             }
             else -> super.onOptionsItemSelected(item)
         }
-//        invalidateOptionsMenu()
     }
 
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
         // toggle light/dark mode menu item
         val lightMode = menu.findItem(R.id.action_light_theme)
         val darkMode = menu.findItem(R.id.action_dark_theme)
-        Log.d("toggleLightThemeVal", toggleLightMode.toString())
         if (toggleLightMode) {
             lightMode.isVisible = false
             darkMode.isVisible = true
@@ -164,7 +158,7 @@ class MainActivity : AppCompatActivity() {
         // Supply extra that is plain text
         intent.type = "text/plain"
         intent.putExtra(Intent.EXTRA_SUBJECT, "Lights Out Game")
-        intent.putExtra(Intent.EXTRA_TEXT, "https://stackoverflow.com/")
+        intent.putExtra(Intent.EXTRA_TEXT, "Lights Out Wins: $totalLightsOutWins")
 
         // If at least one app can handle intent, allow user to choose
         if (intent.resolveActivity(packageManager) != null) {
@@ -178,7 +172,9 @@ class MainActivity : AppCompatActivity() {
         // Supply extra that is plain text
         intent.type = "text/plain"
         intent.putExtra(Intent.EXTRA_SUBJECT, "Pizza Party Game")
-        intent.putExtra(Intent.EXTRA_TEXT, "https://stackoverflow.com/")
+        intent.putExtra(Intent.EXTRA_TEXT, "Party Size: $pizzaPartySize")
+        intent.putExtra(Intent.EXTRA_TEXT, "Hunger Level: $pizzaHungerLevel")
+        intent.putExtra(Intent.EXTRA_TEXT, "Total Pizzas: $totalPizzas")
 
         // If at least one app can handle intent, allow user to choose
         if (intent.resolveActivity(packageManager) != null) {
@@ -189,11 +185,11 @@ class MainActivity : AppCompatActivity() {
 
     private fun updateMainView() {
         // Lights Out Stats
-        lightsOutWinsView.text = lightsOutWinsView.text.toString() + totalLightsOutWins.toString()
+        lightsOutWinsView.text = getString(R.string.lights_out_wins_title, totalLightsOutWins)
         // Pizza Party Stats
-        pizzaPartySizeView.text = pizzaPartySizeView.text.toString() + pizzaPartySize.toString()
-        pizzaHungerLevelView.text = pizzaHungerLevelView.text.toString() + pizzaHungerLevel.toString()
-        totalPizzasView.text = totalPizzasView.text.toString() + totalPizzas.toString()
+        pizzaPartySizeView.text = getString(R.string.pizza_party_size_title, pizzaPartySize)
+        pizzaHungerLevelView.text = getString(R.string.pizza_hunger_level_title, pizzaHungerLevel)
+        totalPizzasView.text = getString(R.string.total_pizzas_title, totalPizzas)
     }
 
 

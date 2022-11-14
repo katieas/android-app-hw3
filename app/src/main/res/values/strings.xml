@@ -21,4 +21,17 @@
     <string name="action_pizza_party">Pizza Party</string>
     <string name="action_light_theme">Light Theme</string>
     <string name="action_dark_theme">Dark Theme</string>
+
+    <string name="pizza_party_game_title">Pizza Party Game</string>
+    <string name="lights_out_game_title">Lights Out Game</string>
+    <string name="pizza_party_size_title">Party Size: %1$d</string>
+    <string name="lights_out_wins_title">Lights Out Wins: %1$d</string>
+    <string name="pizza_hunger_level_title">Hunger Level: %1$s</string>
+    <string name="total_pizzas_title">Total Pizzas: %1$d</string>
+    <string name="share_button_title">Share</string>
+    <string name="random_move_button_title">Random Move</string>
+    <string name="number_of_people_title">Number of people?</string>
+    <string name="how_hungry_title">How hungry?</string>
+    <string name="total_pizzas_text">Total pizzas: ?</string>
+    <string name="calculate_button">Calculate</string>
 </resources>
