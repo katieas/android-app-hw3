@@ -22,7 +22,8 @@
         app:layout_constraintBottom_toBottomOf="parent" >
 
 
-        <Button style="@style/LightButton" />
+        <Button style="@style/LightButton"
+            android:id="@+id/cheat_button"/>
         <Button style="@style/LightButton" />
         <Button style="@style/LightButton" />
         <Button style="@style/LightButton" />

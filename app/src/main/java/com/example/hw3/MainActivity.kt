@@ -74,18 +74,12 @@ class MainActivity : AppCompatActivity() {
 
 
         if (savedInstanceState != null) {
-            // check if data was changed from intent
-//            if (totalLightsOutWins == 0) {
-//                totalLightsOutWins = savedInstanceState.getInt(LIGHTS_OUT_WINS_KEY)
-//            }
-//            if (totalPizzas == 0) {
-//                pizzaPartySize = savedInstanceState.getInt(PIZZA_PARTY_SIZE_KEY)
-//                totalPizzas = savedInstanceState.getInt(TOTAL_PIZZAS_KEY)
-//            }
             toggleLightMode = savedInstanceState.getBoolean(KEY_TOGGLE_LIGHT_MODE)
+            totalLightsOutWins = savedInstanceState.getInt(KEY_LIGHTS_OUT_WINS)
+            pizzaPartySize = savedInstanceState.getInt(KEY_PIZZA_PARTY_SIZE)
+            pizzaHungerLevel = savedInstanceState.getString(KEY_PIZZA_HUNGER_LEVEL)!!
+            totalPizzas = savedInstanceState.getInt(KEY_TOTAL_PIZZAS)
         }
-
-
         updateMainView()
     }
 
@@ -101,7 +95,6 @@ class MainActivity : AppCompatActivity() {
     // APP BAR
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.appbar_menu, menu)
-        //val item = menu.findItem((R.id.action_light_theme)
         return super.onCreateOptionsMenu(menu)
     }
 
@@ -159,7 +152,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun onLightsOutShareButtonClick(view: View) {
-        val builder: AlertDialog.Builder = android.app.AlertDialog.Builder(this)
+        val builder: AlertDialog.Builder = AlertDialog.Builder(this)
         builder.setTitle("Custom Text Message")
 
         val input = EditText(this)
@@ -168,13 +161,13 @@ class MainActivity : AppCompatActivity() {
         builder.setView(input)
 
         //var customMessage: String? = null
-        builder.setPositiveButton("OK", DialogInterface.OnClickListener { dialog, which ->
-            var customMessage = input.text.toString()
+        builder.setPositiveButton("OK", DialogInterface.OnClickListener { _, _ ->
+            val customMessage = input.text.toString()
             val intent = Intent(Intent.ACTION_SEND)
             // Supply extra that is plain text
             intent.type = "text/plain"
             intent.putExtra(Intent.EXTRA_SUBJECT, "Lights Out Game")
-            intent.putExtra(Intent.EXTRA_TEXT, "Lights Out Wins: $totalLightsOutWins $customMessage")
+            intent.putExtra(Intent.EXTRA_TEXT, "Lights Out Wins: $totalLightsOutWins, $customMessage")
 
             // If at least one app can handle intent, allow user to choose
             if (intent.resolveActivity(packageManager) != null) {
@@ -182,24 +175,10 @@ class MainActivity : AppCompatActivity() {
                 startActivity(chooser)
             }
         })
-        builder.setNegativeButton("Cancel", DialogInterface.OnClickListener { dialog, which ->
+        builder.setNegativeButton("Cancel", DialogInterface.OnClickListener { dialog, _ ->
             dialog.cancel()
         })
         builder.show()
-
-//        if (customMessage != null) {
-//            val intent = Intent(Intent.ACTION_SEND)
-//            // Supply extra that is plain text
-//            intent.type = "text/plain"
-//            intent.putExtra(Intent.EXTRA_SUBJECT, "Lights Out Game")
-//            intent.putExtra(Intent.EXTRA_TEXT, "Lights Out Wins: $totalLightsOutWins $m_text")
-//
-//            // If at least one app can handle intent, allow user to choose
-//            if (intent.resolveActivity(packageManager) != null) {
-//                val chooser = Intent.createChooser(intent, "Share Lights Out Game Statistics")
-//                startActivity(chooser)
-//            }
-//        }
     }
 
     private fun onPizzaPartyShareButtonClick(view: View) {
@@ -207,9 +186,7 @@ class MainActivity : AppCompatActivity() {
         // Supply extra that is plain text
         intent.type = "text/plain"
         intent.putExtra(Intent.EXTRA_SUBJECT, "Pizza Party Game")
-        intent.putExtra(Intent.EXTRA_TEXT, "Party Size: $pizzaPartySize Hunger Level: $pizzaHungerLevel Total Pizzas: $totalPizzas")
-//        intent.putExtra(Intent.EXTRA_TEXT, "Hunger Level: $pizzaHungerLevel")
-//        intent.putExtra(Intent.EXTRA_TEXT, "Total Pizzas: $totalPizzas")
+        intent.putExtra(Intent.EXTRA_TEXT, "Party Size: $pizzaPartySize, Hunger Level: $pizzaHungerLevel, Total Pizzas: $totalPizzas")
 
         // If at least one app can handle intent, allow user to choose
         if (intent.resolveActivity(packageManager) != null) {
@@ -226,8 +203,6 @@ class MainActivity : AppCompatActivity() {
         pizzaHungerLevelView.text = getString(R.string.pizza_hunger_level_title, pizzaHungerLevel)
         totalPizzasView.text = getString(R.string.total_pizzas_title, totalPizzas)
     }
-
-
 
     override fun onStart() {
         super.onStart()

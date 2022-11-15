@@ -18,7 +18,6 @@ import com.example.hw3.pizzaparty.PizzaPartyActivity
 import kotlin.random.Random
 
 const val TAG = "LightsOutLifeCycle"
-//const val KEY_TOTAL_WINS = "totalWins"
 const val GAME_STATE = "gameState"
 
 class LightsOutActivity : AppCompatActivity() {
@@ -44,6 +43,17 @@ class LightsOutActivity : AppCompatActivity() {
         // Add the same click handler to all grid buttons
         for (gridButton in lightGridLayout.children) {
             gridButton.setOnClickListener(this::onLightButtonClick)
+        }
+
+        val cheatButton: Button = findViewById(R.id.cheat_button)
+        cheatButton.setOnLongClickListener {
+            game.activateWin()
+            setButtonColors()
+            if (game.isGameOver) {
+                totalLightsOutWins++
+                Toast.makeText(this, R.string.congrats, Toast.LENGTH_SHORT).show()
+            }
+            return@setOnLongClickListener true
         }
 
         lightOnColor = ContextCompat.getColor(this, R.color.yellow)
@@ -74,7 +84,6 @@ class LightsOutActivity : AppCompatActivity() {
             game.state = savedInstanceState.getString(GAME_STATE)!!
             setButtonColors()
             totalLightsOutWins = savedInstanceState.getInt(KEY_LIGHTS_OUT_WINS)
-            //displayTotal()
             toggleLightMode = savedInstanceState.getBoolean(KEY_TOGGLE_LIGHT_MODE)
         }
     }
@@ -86,18 +95,12 @@ class LightsOutActivity : AppCompatActivity() {
         outState.putBoolean(KEY_TOGGLE_LIGHT_MODE, toggleLightMode)
     }
 
-//    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
-//        super.onRestoreInstanceState(savedInstanceState)
-//        totalWins = savedInstanceState.getInt(KEY_TOTAL_WINS)
-//    }
-
     private fun startGame() {
         game.newGame()
         setButtonColors()
     }
 
     private fun onLightButtonClick(view: View) {
-
         // Find the button's row and col
         val buttonIndex = lightGridLayout.indexOfChild(view)
         val row = buttonIndex / GRID_SIZE
@@ -151,7 +154,6 @@ class LightsOutActivity : AppCompatActivity() {
     private fun onNewGameClick(view: View) {
         startGame()
     }
-
 
     // APP BAR
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

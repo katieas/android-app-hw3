@@ -31,7 +31,6 @@ class PizzaPartyActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pizza_party)
 
-
         numAttendEditText = findViewById(R.id.num_attend_edit_text)
         numPizzasTextView = findViewById(R.id.num_pizzas_text_view)
         calcButton = findViewById(R.id.calc_button)
@@ -50,8 +49,6 @@ class PizzaPartyActivity : AppCompatActivity() {
 
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                //val item = parent?.getItemAtPosition(position) as String
-                //Toast.makeText(this@PizzaPartyActivity, item, Toast.LENGTH_SHORT).show()
                 hungerLevel = when (parent?.getItemAtPosition(position) as String) {
                     "light" -> PizzaCalculator.HungerLevel.LIGHT
                     "medium" -> PizzaCalculator.HungerLevel.MEDIUM
@@ -76,7 +73,6 @@ class PizzaPartyActivity : AppCompatActivity() {
             displayTotal()
             toggleLightMode = savedInstanceState.getBoolean(KEY_TOGGLE_LIGHT_MODE)
         }
-
     }
 
     private fun displayTotal() {
@@ -89,12 +85,6 @@ class PizzaPartyActivity : AppCompatActivity() {
         outState.putInt(KEY_TOTAL_PIZZAS, totalPizzas)
         outState.putBoolean(KEY_TOGGLE_LIGHT_MODE, toggleLightMode)
     }
-
-//    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
-//        super.onRestoreInstanceState(savedInstanceState)
-//        totalPizzas = savedInstanceState.getInt(KEY_TOTAL_PIZZAS)
-//        displayTotal()
-//    }
 
     override fun onStart() {
         super.onStart()
@@ -134,10 +124,6 @@ class PizzaPartyActivity : AppCompatActivity() {
         val calc = PizzaCalculator(pizzaPartySize, hungerLevel)
         totalPizzas = calc.totalPizzas
         displayTotal()
-
-        // Place totalPizzas into the string resource and display
-//        val totalText = getString(R.string.total_pizzas, totalPizzas)
-//        numPizzasTextView.setText(totalText)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

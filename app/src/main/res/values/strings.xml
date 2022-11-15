@@ -32,6 +32,6 @@
     <string name="random_move_button_title">Random Move</string>
     <string name="number_of_people_title">Number of people?</string>
     <string name="how_hungry_title">How hungry?</string>
-    <string name="total_pizzas_text">Total pizzas: ?</string>
+    <string name="total_pizzas_text">Total pizzas: </string>
     <string name="calculate_button">Calculate</string>
 </resources>

@@ -29,7 +29,8 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/random_move_button">
 
-        <Button style="@style/LightButton" />
+        <Button style="@style/LightButton"
+            android:id="@+id/cheat_button"/>
         <Button style="@style/LightButton" />
         <Button style="@style/LightButton" />
         <Button style="@style/LightButton" />
