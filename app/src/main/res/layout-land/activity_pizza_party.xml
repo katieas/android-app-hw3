@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools"
+android:id="@+id/activity_main"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:orientation="vertical"
+android:paddingBottom="16dp"
+android:paddingLeft="16dp"
+android:paddingRight="16dp"
+android:paddingTop="16dp"
+tools:context="com.example.hw3.pizzaparty.PizzaPartyActivity"
+    android:theme="@style/Theme.PizzaParty">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/number_of_people_title"
+        android:textSize="24sp"
+        android:labelFor="@id/num_attend_edit_text" />
+
+    <EditText
+        android:id="@+id/num_attend_edit_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="5"
+        android:importantForAutofill="no"
+        android:hint="10" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/how_hungry_title"
+        android:textSize="24sp"
+        android:labelFor="@id/hungry_spinner" />
+
+    <Spinner
+        android:id="@+id/hungry_spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/num_pizzas_text_view"
+        android:text="@string/total_pizzas_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:textSize="24sp"/>
+
+    <Button
+        android:id="@+id/calc_button"
+        android:text="@string/calculate_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp" />
+</LinearLayout>

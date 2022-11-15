@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingBottom="16dp"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingTop="16dp"
+    tools:context="com.example.hw3.MainActivity">
+
+    <GridLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:columnCount="2"
+        android:rowCount="2">
+
+        <Button
+            android:id="@+id/pizza_party_game_button"
+            android:layout_width="150dp"
+            android:layout_height="200dp"
+            android:layout_margin="10dp"
+            android:text="@string/pizza_party_game_title"
+            style="@style/pizzaPartyButton"/>
+
+        <Button
+            android:id="@+id/lights_out_game_button"
+            android:layout_width="150dp"
+            android:layout_height="200dp"
+            android:layout_margin="10dp"
+            android:text="@string/lights_out_game_title"
+            style="@style/lightsOutButton" />
+
+        <TextView
+            android:id="@+id/party_size_view"
+            android:text="@string/pizza_party_size_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"/>
+
+        <TextView
+            android:id="@+id/lights_out_wins_view"
+            android:text="@string/lights_out_wins_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_rowSpan="2"
+            android:layout_marginLeft="15dp"/>
+
+        <TextView
+            android:id="@+id/hunger_level_view"
+            android:text="@string/pizza_hunger_level_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"/>
+
+        <TextView
+            android:id="@+id/total_pizzas_view"
+            android:text="@string/total_pizzas_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_columnSpan="2"/>
+
+        <Button
+            android:id="@+id/share_pizza_party_button"
+            android:text="@string/share_button_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            style="@style/pizzaPartyButton"/>
+
+        <Button
+            android:id="@+id/share_lights_out_button"
+            android:text="@string/share_button_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            style="@style/lightsOutButton"/>
+    </GridLayout>
+</LinearLayout>

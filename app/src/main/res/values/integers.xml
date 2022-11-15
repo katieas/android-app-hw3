@@ -1,0 +1,4 @@
+<resources>
+    <integer name="slices_per_pizza">8</integer>
+    <integer name="num_people_hint">10</integer>
+</resources>
